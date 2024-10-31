@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\CourseRegistered;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class CourseController extends Controller
         ]);
         Course::create(array_merge($request->all(), ['user_id' => auth()->id()]));
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('info', 'دوره با موفقیت ایجاد شد.');
     }
 
     /**
@@ -90,6 +91,8 @@ class CourseController extends Controller
         $course->enrollments()->create(['user_id' => $user->id]);
 
         $course->increment('students_count');
+
+        event(new CourseRegistered($course, $user));
 
         return redirect()->route('courses.show', $course->id);
     }

@@ -4,6 +4,9 @@
     <div class="container">
         <h2 class="text-center">{{ $course->title }}</h2>
         <p class="text-center">{{ $course->description }}</p>
+        @if(!Course::isUserCourse($course->id))
+            <p class="text-center">نویسنده : {{ User::getFullName($course->user->id) }}</p>
+        @endif
         @if(Course::isUserCourse($course->id))
             <a href="{{ route('courses.edit', $course->id) }}" class="text-center btn btn-primary w-100 mb-2">ویرایش</a>
             <form action="{{ route('courses.destroy', $course->id) }}" method="POST">
@@ -16,7 +19,6 @@
                 شما در این دوره ثبت نام کرده‌اید.
             </div>
         @else
-            <p class="text-center">نویسنده : {{ User::getFullName($course->user->id) }}</p>
             <form action="{{ route('courses.enroll', $course->id) }}" method="POST">
                 @csrf
                 <button type="submit" class="btn btn-success text-center w-100">ثبت نام در دوره</button>

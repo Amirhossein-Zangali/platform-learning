@@ -41,7 +41,7 @@ class UserController extends Controller
     public function registerPost(Request $request)
     {
         if (auth()->check())
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
 
         $request->validate([
             'first_name' => ['required', 'string', 'min:3'],
@@ -55,7 +55,7 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
     }
 
     public function logout()

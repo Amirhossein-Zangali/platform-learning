@@ -6,7 +6,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\CourseController;
 
 Route::get('/', [PageController::class, 'index'])->name('home');
-Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard');
+Route::get('/dashboard', [PageController::class, 'dashboard'])->name('dashboard')->middleware('auth');
 
 Route::get('/login', [UserController::class, 'login'])->name('login');
 Route::get('/register', [UserController::class, 'register'])->name('register');
