@@ -26,7 +26,7 @@ class UserController extends Controller
 
 
         if (auth()->attempt($credentials)) {
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         } else
             return redirect()->route('login')->with('error', 'ایمیل یا رمز عبور اشتباه است.');
     }
@@ -34,7 +34,7 @@ class UserController extends Controller
     public function register()
     {
         if (auth()->check())
-            return redirect()->route('home');
+            return redirect()->route('dashboard');
         return view('auth.register');
     }
 

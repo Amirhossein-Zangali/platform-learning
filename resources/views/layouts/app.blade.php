@@ -22,7 +22,10 @@
                     </li>
                 @else
                     <li class="nav-item">
-{{--                        <a class="nav-link" href="{{ route('dashboard') }}">داشبورد</a>--}}
+                        <a class="nav-link" href="{{ route('dashboard') }}">داشبورد</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('courses.index') }}">دوره ها</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
