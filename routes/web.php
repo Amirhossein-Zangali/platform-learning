@@ -15,3 +15,4 @@ Route::post('/register', [UserController::class, 'registerPost'])->name('registe
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
 Route::resource('courses', CourseController::class)->middleware('auth');
+Route::post('/courses/{course}/enroll', [CourseController::class, 'enroll'])->name('courses.enroll')->middleware('auth');

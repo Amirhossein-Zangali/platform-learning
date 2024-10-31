@@ -45,12 +45,17 @@ class User extends Authenticatable
 
     public function courses(): HasMany
     {
-        return $this->hasMany(Course::class);
+        return $this->hasMany(Course::class)->orderBy('id', 'desc');
     }
 
     static public function getFullName($id)
     {
         $user = User::find($id);
         return $user->first_name . ' ' . $user->last_name;
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 }

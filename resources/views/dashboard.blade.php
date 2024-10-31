@@ -6,6 +6,12 @@
             آموزشی خوش آمدید.</h3>
     </div>
 
+    @if(session('info'))
+        <div class="alert alert-info mt-3">
+            {{ session('info') }}
+        </div>
+    @endif
+
     <div class="card p-4 my-2">
         <a class="btn btn-primary w-100 text-center" href="{{ route('courses.create') }}">ایجاد دوره +</a>
     </div>

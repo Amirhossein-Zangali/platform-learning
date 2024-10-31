@@ -19,4 +19,15 @@ class Course extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    static public function isEnroll($id)
+    {
+        $course = Course::find($id);
+        return $course->enrollments()->where('user_id', auth()->id())->exists();
+    }
 }

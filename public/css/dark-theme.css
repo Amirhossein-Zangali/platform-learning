@@ -29,3 +29,7 @@ body {
     color: #aaa;
     opacity: 1;
 }
+
+.alert {
+    text-align: center;
+}

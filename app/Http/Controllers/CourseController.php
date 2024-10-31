@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
@@ -13,7 +14,7 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::where('user_id', '!=', auth()->id())->get();
+        $courses = Course::where('user_id', '!=', auth()->id())->orderBy('id', 'desc')->get();
         return view('courses.index', compact('courses'));
     }
 
@@ -66,7 +67,7 @@ class CourseController extends Controller
         ]);
         $course->update($request->all());
 
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('info', 'دوره با موفقیت ویرایش شد.');
     }
 
     /**
@@ -75,6 +76,21 @@ class CourseController extends Controller
     public function destroy(Course $course)
     {
         $course->delete();
-        return redirect()->route('dashboard');
+        return redirect()->route('dashboard')->with('info', 'دوره با موفقیت حذف شد.');
+    }
+
+    /**
+     * Enrollment in course
+     */
+
+    public function enroll(Course $course)
+    {
+        $user = Auth::user();
+
+        $course->enrollments()->create(['user_id' => $user->id]);
+
+        $course->increment('students_count');
+
+        return redirect()->route('courses.show', $course->id);
     }
 }

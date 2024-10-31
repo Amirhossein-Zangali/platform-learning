@@ -15,24 +15,22 @@
             <ul class="navbar-nav ms-auto">
                 @guest
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">ورود</a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'login' ? 'active' : '' }}" href="{{ route('login') }}">ورود</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('register') }}">ثبت‌ نام</a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'register' ? 'active' : '' }}" href="{{ route('register') }}">ثبت‌ نام</a>
                     </li>
                 @else
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('dashboard') }}">داشبورد</a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'dashboard' ? 'active' : '' }}" href="{{ route('dashboard') }}">داشبورد</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('courses.index') }}">دوره ها</a>
+                        <a class="nav-link {{ Route::currentRouteName() == 'courses.index' ? 'active' : '' }}" href="{{ route('courses.index') }}">دوره ها</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            خروج
-                        </a>
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                        <form action="{{ route('logout') }}" method="POST">
                             @csrf
+                            <button type="submit" class="nav-link">خروج</button>
                         </form>
                     </li>
                 @endguest
