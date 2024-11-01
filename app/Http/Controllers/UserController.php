@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -35,6 +36,7 @@ class UserController extends Controller
     {
         if (auth()->check())
             return redirect()->route('dashboard');
+
         return view('auth.register');
     }
 
@@ -53,6 +55,7 @@ class UserController extends Controller
 
         $user = User::create($request->all());
 
+        event(new Registered($user));
         auth()->login($user);
 
         return redirect()->route('dashboard');

@@ -11,6 +11,11 @@
             {{ session('info') }}
         </div>
     @endif
+    @if(session('error'))
+        <div class="alert alert-danger mt-3">
+            {{ session('error') }}
+        </div>
+    @endif
 
     <div class="card p-4 my-2">
         <a class="btn btn-primary w-100 text-center" href="{{ route('courses.create') }}">ایجاد دوره +</a>

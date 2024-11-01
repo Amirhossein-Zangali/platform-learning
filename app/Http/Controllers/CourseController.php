@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Events\CourseRegistered;
+use App\Events\CourseViewed;
 use App\Models\Course;
 use App\Models\User;
+use \Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,6 +48,7 @@ class CourseController extends Controller
      */
     public function show(Course $course)
     {
+        event(new CourseViewed(auth()->user(), $course));
         return view('courses.show', compact('course'));
     }
 
@@ -54,6 +57,8 @@ class CourseController extends Controller
      */
     public function edit(Course $course)
     {
+        if (!Gate::allows('update', $course))
+            return redirect()->route('dashboard')->with('error', 'شما دسترسی ویرایش این دوره را ندارید.');
         return view('courses.edit', compact('course'));
     }
 
@@ -62,6 +67,8 @@ class CourseController extends Controller
      */
     public function update(Course $course ,Request $request)
     {
+        if (!Gate::allows('update', $course))
+            return redirect()->route('dashboard')->with('error', 'شما دسترسی ویرایش این دوره را ندارید.');
         $request->validate([
             'title' => ['required', 'string'],
             'description' => ['required', 'string'],
@@ -76,6 +83,8 @@ class CourseController extends Controller
      */
     public function destroy(Course $course)
     {
+        if (!Gate::allows('delete', $course))
+            return redirect()->route('dashboard')->with('error', 'شما دسترسی حذف این دوره را ندارید.');
         $course->delete();
         return redirect()->route('dashboard')->with('info', 'دوره با موفقیت حذف شد.');
     }
@@ -89,8 +98,6 @@ class CourseController extends Controller
         $user = Auth::user();
 
         $course->enrollments()->create(['user_id' => $user->id]);
-
-        $course->increment('students_count');
 
         event(new CourseRegistered($course, $user));
 

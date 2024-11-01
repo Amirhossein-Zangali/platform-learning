@@ -30,4 +30,10 @@ class Course extends Model
         $course = Course::find($id);
         return $course->enrollments()->where('user_id', auth()->id())->exists();
     }
+
+    static public function registeredUsersCount($id)
+    {
+        $course = Course::find($id);
+        return $course->enrollments->count();
+    }
 }
